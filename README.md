@@ -47,6 +47,37 @@ This script demonstrates a sophisticated approach to querying a SQLite database 
    - Navigate to the directory containing the notebook.
    - Launch the notebook in a Jupyter environment.
    - Execute the notebook cells sequentially to import the data, set up the database, and begin querying using natural language.
+  
+```python
+from operator import itemgetter
+
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import PromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+
+prompt_query_answer = PromptTemplate.from_template(
+    """Given the following user question, corresponding SQL query, and SQL result, answer the user question.
+
+Question: {question}
+SQL Query: {query}
+SQL Result: {result}
+Answer: """
+)
+
+answer = prompt_query_answer | llm | StrOutputParser()
+chain = (
+    RunnablePassthrough.assign(query=write_query).assign(
+        result=itemgetter("query") | execute_query
+    )
+    | answer
+)
+
+chain.invoke({"question": "List top 10 which the highest number of forks"})
+```
+
+```python
+Output: 'The top 10 repositories with the highest number of forks are:\n\n1. ChatGPT-Next-Web with 54,259 forks\n2. generative-ai-for-beginners with 21,598 forks\n3. awesome-machine-learning with 14,447 forks\n4. langchain with 12,434 forks\n5. Flowise with 11,784 forks\n6. llama.cpp with 7,703 forks\n7. awesome-cpp with 7,613 forks\n8. private-gpt with 6,804 forks\n9. chatgpt-on-wechat with 6,622 forks\n10. lobe-chat with 5,941 forks'
+```
 
 #### Conclusion
 
