@@ -29,7 +29,7 @@ This script demonstrates a sophisticated approach to querying a SQLite database 
 #### Prerequisites
 
 - Python 3.11.4
-- Libraries: `sqlite3`, `pandas`, `langchain_community`, `langchain_core`, `langchain_openai`
+- Libraries: `pandas`, `langchain_community`, `langchain_core`, `langchain_openai` (the `sqlite3` module is included with Python)
 
 #### Installation
 
@@ -40,7 +40,7 @@ This script demonstrates a sophisticated approach to querying a SQLite database 
    - Ensure Python 3.11.4 is installed on your system.
    - Install the required Python libraries using pip:
      ```
-     pip install sqlite3 pandas langchain_community langchain_core langchain_openai
+     pip install pandas langchain_community langchain_core langchain_openai
      ```
 
 3. **Run the Script**:
@@ -72,7 +72,7 @@ chain = (
     | answer
 )
 
-chain.invoke({"question": "List top 10 which the highest number of forks"})
+chain.invoke({"question": "List top 10 projects with the highest number of forks"})
 ```
 
 ```python
